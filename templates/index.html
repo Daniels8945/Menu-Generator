@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- icon link -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+
+    <!-- style -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css')}}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='reset.mini.css')}}">
+    
+
+    <title>Admin menu</title>
+</head>
+<body>
+    <header >
+       <div class="header">
+            <nav class="h1"><h1><b>K</b>itchen <b>A</b>dmin</h1></nav>
+       </div>
+    </header>
+{% block content %}
+    <div class="Container">
+       <div class="menu">
+            <div class="menu-list-head">
+                <h1>Menu List</h1>
+            </div>
+                <div class="add-menu" id="add-menu">
+                    <button type="button" class="dropdown-btn" id="dropdownbtn">
+                        Add To Menu
+                        <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#5f6368"><path d="M480-360 280-560h400L480-360Z"/></svg>
+                    </button>
+
+                    <div class="dropdown" id="dropdown">
+                        <nav class="dropdown-nav">
+                            <form id="menu-form" action="{% if item %}{{ url_for('edit_menu', id=item.id)}}{% else %}{{ url_for('add_menu')}}{% endif %}" method="POST">
+
+                                <input type="text" placeholder="Food Name" id="name" required value="{% if item %}{{ item.name}}{% endif %}">
+
+                                <input type="text" placeholder="Category" id="category" required value="{% if item %}{{ item.category}}{% endif %}">
+
+                                <input type="number" placeholder="Price" id="price" required value="{% if item %}{{ item.price}}{% endif %}">
+
+                                <button class="submit-btn" type="submit" id="submit">{% if item %}Update Menu{% else %}Create Menu{% endif %}</button> 
+                            </form>
+                        </nav>  
+                    </div>
+                </div>
+                <span class="menu-header">
+                    <h3>Food Name</h3>
+                    <h3>Category</h3>
+                    <h3>Price</h3>
+                    <h3>Created at</h3>
+                    <h3>Last Modified</h3>
+                    <h3>Status</h3> 
+                    <h3>Action</h3>
+                </span>
+
+                <div id="list" class="list">
+                    <ul>
+                        {% for item in menu %}
+                        <li data-id="{{ item.id}}">
+                            <span>{{ item.name }}</span>
+                            <span>{{ item.category }}</span>
+                            <span>{{ item.price }}</span>
+                            <span>{{ item.created_at }}</span>
+                            <span>{{ item.last_modified }}</span>
+                            <span class="status">Hidden</span>
+
+                            <span class="action-dropdown">
+                            <button class="action" id="actBtn">
+                                <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#5f6368"><path d="M480-160q-33 0-56.5-23.5T400-240q0-33 23.5-56.5T480-320q33 0 56.5 23.5T560-240q0 33-23.5 56.5T480-160Zm0-240q-33 0-56.5-23.5T400-480q0-33 23.5-56.5T480-560q33 0 56.5 23.5T560-480q0 33-23.5 56.5T480-400Zm0-240q-33 0-56.5-23.5T400-720q0-33 23.5-56.5T480-800q33 0 56.5 23.5T560-720q0 33-23.5 56.5T480-640Z"/></svg>
+                            </button>
+
+                               <div class="dropdown-content" id="dropdown-content">
+                                <button class="edit" id="edit" data-id="{{ item.id}}">Edit</button>
+                                <button class="remove" id="remove" data-id="{{ item.id }}">Delete</button>
+                                <button>Show</button>
+                                <button>Hide</button>
+                                </div>
+                            </span>
+                        </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+       </div>
+    </div>
+{% endblock %}
+    <script type text ='text/javaScript'
+     src="{{url_for('static', filename='main/app.js') }}"
+     type="module">
+    </script>
+</body>
+</html>
